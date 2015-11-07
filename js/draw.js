@@ -39,36 +39,24 @@ var render = function () {
 		drawRotated(image, player.x, player.y, rotation);
 	}
 
-	for (var i=0; i < dots.length; i++){
-    var dot = dots[i];
-    ctx.drawImage(dotImage, dot.x, dot.y  ,SIZE, SIZE);
-  }
+	drawItems(children,playerImageOpen, false);
+	drawItems(eggs,eggImage, false);
+	drawItems(enemies,enemyImage, true);
+};
 
-  for (var i=0; i < enemies.length; i++){
+var drawItems = function(array, image, withStats) {
+	for (var i=0; i < array.length; i++){
 
-    var enemy = enemies[i];
-		drawStats(enemy);
+    var item = array[i];
+		if (withStats) drawStats(item);
 
-    ctx.drawImage(monsterImage, enemy.x, enemy.y,SIZE, SIZE);
-
-  }
-	if (false) //DEBUG
-  for (var i=0; i < blocks.length; i++){
-    var block = blocks[i];
-    ctx.drawImage(monsterImage, block.x, block.y  ,SIZE, SIZE);
-  }
-
-
-  if (player.dead){
-    ctx.fillStyle = "red";
-    ctx.font = "48px Helvetica";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    ctx.fillText("Game Over", canvas.width / 2, canvas.height/ 2);
+		//item might be null if you use `delete array[i]`, like eggs
+    if (item) ctx.drawImage(image, item.x, item.y,SIZE, SIZE);
   }
 };
 
 var drawStats = function(fish) {
+	drawText(fish.x,fish.y - 60, "F "+fish.stats.food);
 	drawText(fish.x,fish.y - 30, "H "+fish.stats.health);
 	drawText(fish.x,fish.y + 30, "S "+fish.stats.speed);
 	drawText(fish.x,fish.y + 60, "D "+fish.stats.defense);

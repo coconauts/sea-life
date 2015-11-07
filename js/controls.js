@@ -12,6 +12,10 @@ addEventListener("keyup", function (e) {
 }, false);
 
 
+addEventListener("click", function(e) {
+  addEgg(player.x,player.y);
+}, false);
+
 //Called from update.js
 var controls = function(modifier){
   if (KEY_LEFT in keysDown && !isCollidingBlocks(player, LEFT, p(-5,0)))  player.direction = LEFT;

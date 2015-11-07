@@ -20,30 +20,34 @@ var update = function (modifier) {
 	updateEnemies(modifier); //AI
 
 	//Enemy collision
-	for (var i= 0; i < enemies.length; i++){
-    var enemy = enemies[i];
-    if (collision.collision(enemy, player, SIZE)) {
-			attack(player,enemy);
-
-			if (enemy.stats.health < 1)	enemies.splice(i,1);
-
-		}
-  }
-	//Eating dots
-	for (var i= 0; i < dots.length; i++){
-    var dot = dots[i];
-    if (collision.collision(dot, player, SIZE / 2)) dots.splice(i, 1);
-  }
+	updateCollision();
 
 	sectors.visit(player.x,player.y);
 
 };
 
-var attack = function(player,enemy){
-	player.stats.health -= 1;
-	enemy.stats.health -= 1;
+var updateCollision = function(){
+	for (var i= 0; i < enemies.length; i++){
+    var enemy = enemies[i];
+    if (collision.collision(enemy, player, SIZE)) {
+			attack(player,enemy);
 
-	if (player.stats.health < 1) player.dead = true;
+			if (enemy.stats.health <= 0)	enemies.splice(i,1);
+
+		}
+  }
+};
+
+var receiveAttack = function(attacker, defender) {
+	var attack = attacker.stats.attack * ( 1 - defender.stats.defense);
+	if (attack > 0) defender.stats.health -= attack;
+};
+var attack = function(player,enemy){
+	console.log("Attack " , player, enemy);
+	receiveAttack(player,enemy);
+	receiveAttack(enemy,player);
+
+	if (player.stats.health <= 0) player.dead = true;
 	//if (enemy.stats.health < 1) enemy.dead = true;
 };
 

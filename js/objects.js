@@ -13,9 +13,9 @@ var fish = function(x,y){
 
 
 var generateStats = function(){
-  var speed = floatRandomBetween(0.1, 0.9);
-  var defense = floatRandomBetween(0.1, 0.9-speed);
-  var attack = 1 - speed - defense;
+  var speed = floatRandomBetween(0.2, 0.8);
+  var attack = floatRandomBetween(0.2, 0.8-speed);
+  var defense = (1 - speed - attack).toFixed(2);
 
   return {
     health: 1,
@@ -27,7 +27,13 @@ var generateStats = function(){
 
 };
 
-var player = fish(canvas.width / 2, canvas.height / 2);
+var addEnemy = function(x, y){
+  var enemy = fish(x,y);
+
+  startAi(enemy);
+  enemies.push(enemy);
+};
+
 
 
 var enemies = [];

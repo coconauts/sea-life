@@ -48,5 +48,8 @@ var randomBetween = function(min, max){
 };
 
 var floatRandomBetween = function(min, max){
-  return Math.random() * (max - min) + min;
+  var f = Math.random() * (max - min) + min;
+  return f.toFixed(2);
+//  var rounded = ""+parseInt(f * 100) / 100;
+//  return rounded;
 };
