@@ -3,12 +3,13 @@
 var fish = function(x,y){
   return {
     direction: LEFT,
-    speed: 100,
+    dead: false,
     sprite: 0,
     x: x,
     y: y,
     stats: {
       health: 100,
+      speed: 100,
       food: 100,
       attack: 1,
       defense: 1

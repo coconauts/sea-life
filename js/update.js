@@ -22,7 +22,12 @@ var update = function (modifier) {
 	//Enemy collision
 	for (var i= 0; i < enemies.length; i++){
     var enemy = enemies[i];
-    if (collision.collision(enemy, player, SIZE)) player.dead = true;
+    if (collision.collision(enemy, player, SIZE)) {
+			attack(player,enemy);
+
+			if (enemy.stats.health < 1)	enemies.splice(i,1);
+
+		}
   }
 	//Eating dots
 	for (var i= 0; i < dots.length; i++){
@@ -34,10 +39,18 @@ var update = function (modifier) {
 
 };
 
+var attack = function(player,enemy){
+	player.stats.health -= 1;
+	enemy.stats.health -= 1;
+
+	if (player.stats.health < 1) player.dead = true;
+	//if (enemy.stats.health < 1) enemy.dead = true;
+};
+
 var move = function(obj, modifier){
 
-  obj.x  = obj.x + obj.direction.x * obj.speed  * modifier;
-  obj.y =  obj.y + obj.direction.y * obj.speed * modifier;
+  obj.x  = obj.x + obj.direction.x * obj.stats.speed  * modifier;
+  obj.y =  obj.y + obj.direction.y * obj.stats.speed * modifier;
 
   //if (obj.y < 0 ) obj.y = canvas.height;
   //else if (obj.y > canvas.height ) obj.y = 0 ;

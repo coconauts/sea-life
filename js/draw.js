@@ -27,6 +27,7 @@ var render = function () {
 	//drawBackground();
 
 	drawRect(player.x,player.y);
+	drawStats(player);
 
 	if (!player.dead) {
 		var image;
@@ -44,7 +45,10 @@ var render = function () {
   }
 
   for (var i=0; i < enemies.length; i++){
+
     var enemy = enemies[i];
+		drawStats(enemy);
+
     ctx.drawImage(monsterImage, enemy.x, enemy.y,SIZE, SIZE);
 
   }
@@ -55,7 +59,6 @@ var render = function () {
   }
 
 
-
   if (player.dead){
     ctx.fillStyle = "red";
     ctx.font = "48px Helvetica";
@@ -63,6 +66,23 @@ var render = function () {
     ctx.textBaseline = "top";
     ctx.fillText("Game Over", canvas.width / 2, canvas.height/ 2);
   }
+};
+
+var drawStats = function(fish) {
+	drawText(fish.x,fish.y - 30, "H "+fish.stats.health);
+	drawText(fish.x,fish.y + 30, "S "+fish.stats.speed);
+	drawText(fish.x,fish.y + 60, "D "+fish.stats.defense);
+	drawText(fish.x,fish.y + 90, "A "+fish.stats.attack);
+
+};
+
+var drawText = function(x,y, text) {
+	ctx.fillStyle = "white";
+	ctx.font = "32px Helvetica";
+	ctx.textAlign = "left";
+	ctx.textBaseline = "top";
+	ctx.fillText(text, x,y);
+
 };
 
 function drawBackground(){
