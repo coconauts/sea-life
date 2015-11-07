@@ -1,4 +1,5 @@
 // Game objects
+var MOVE_SPEED = 100;
 
 var fish = function(x,y){
   return {
@@ -15,7 +16,7 @@ var fish = function(x,y){
 var generateStats = function(){
   var speed = floatRandomBetween(0.2, 0.8);
   var attack = floatRandomBetween(0.2, 0.8-speed);
-  var defense = (1 - speed - attack).toFixed(2);
+  var defense = parseFloat((1 - speed - attack).toFixed(2));
 
   return {
     health: 1,
