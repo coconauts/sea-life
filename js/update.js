@@ -49,8 +49,8 @@ var attack = function(player,enemy){
 
 var move = function(obj, modifier){
 
-  obj.x  = obj.x + obj.direction.x * obj.stats.speed  * modifier;
-  obj.y =  obj.y + obj.direction.y * obj.stats.speed * modifier;
+  obj.x  = obj.x + obj.direction.x * obj.stats.speed * 100 * modifier;
+  obj.y =  obj.y + obj.direction.y * obj.stats.speed * 100 * modifier;
 
   //if (obj.y < 0 ) obj.y = canvas.height;
   //else if (obj.y > canvas.height ) obj.y = 0 ;

@@ -46,3 +46,7 @@ var loadImagePixels = function(image, callback){
 var randomBetween = function(min, max){
   return Math.floor(Math.random() * (max - min)) + min;
 };
+
+var floatRandomBetween = function(min, max){
+  return Math.random() * (max - min) + min;
+};
