@@ -4,6 +4,7 @@ var addEnemy = function(x, y){
   var enemy = fish(x,y);
   enemy.stage = LARVA;
 
+  enemy.index = enemies.length;
   startAi(enemy);
   enemies.push(enemy);
 };
@@ -25,19 +26,19 @@ var updateEnemies = function(modifier){
   }
 }
 
-setInterval(function(){
-  for (var i in enemies){
-    enemy = enemies[i];
-  }
-}, 1000);
-
 var startAi = function(enemy){
   setInterval(function(){
     changeDirection(enemy);
+
+    var enemy = findCloseEnemy(enemy);
+
+
   }, 5000);
 };
 
-
+var findCloseEnemy = function(enemy) {
+  utils.randomBetween(enemy.index -2, enemy.index +2);
+}
 
 var changeDirection = function(enemy){
     var tol =  p(-5,0);
