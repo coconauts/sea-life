@@ -11,26 +11,18 @@ var addEnemy = function(x, y){
 
 var updateEnemies = function(modifier){
 
-  for (var i= 0; i < enemies.length; i++){
-    var enemy = enemies[i];
-  /*  if (isCollidingBlocks(enemy,enemy.direction)){
-      changeDirection(enemy);
+  for (var e in enemies)  updateEnemy(enemies[e]);
+};
 
-    } else {*/
-      enemy.secondsAlive += modifier;
-
-
-      move(enemy, modifier);
-      enemy.grow();
-    //}
-  }
-}
+var updateEnemy = function(fish){
+  move(fish, modifier);
+};
 
 var startAi = function(enemy){
   setInterval(function(){
     changeDirection(enemy);
 
-    var enemy = findCloseEnemy(enemy);
+    var close = findCloseEnemy(enemy);
 
 
   }, 5000);
@@ -38,7 +30,7 @@ var startAi = function(enemy){
 
 var findCloseEnemy = function(enemy) {
   utils.randomBetween(enemy.index -2, enemy.index +2);
-}
+};
 
 var changeDirection = function(enemy){
     var tol =  p(-5,0);
@@ -49,4 +41,4 @@ var changeDirection = function(enemy){
       case 2: enemy.direction = UP;break;
       default: enemy.direction = DOWN;break;
     }
-}
+};
