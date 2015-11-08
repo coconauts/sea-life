@@ -3,8 +3,6 @@ var playerSpriteTimeout ;
 var update = function (modifier) {
 	controls(modifier);
 
-	//console.log("Moving camera ", player.x , player.y);
-
 	if (player.stage == DEAD){
 		clearTimeout(playerSpriteTimeout);
 		player.isMoving = false;

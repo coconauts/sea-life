@@ -1,5 +1,4 @@
 // Create the canvas
-
 var SIZE = 32;
 
 var directionToRotation = function(direction){
@@ -46,6 +45,8 @@ var render = function () {
 	drawItems(children,playerImageOpen, false);
 	//drawItems(eggs,eggImage, false);
 	drawItems(enemies,enemyImage, true);
+
+	drawHUD();
 };
 
 var drawItems = function(array, image, withStats) {
@@ -86,6 +87,7 @@ var drawText = function(x,y, text) {
 	ctx.font = "16px Helvetica";
 	ctx.textAlign = "center";
 	ctx.textBaseline = "top";
+
 	ctx.fillText(text, x,y);
 
 };
@@ -165,3 +167,9 @@ function drawRotated(image, x, y, angle) {
 		ctx.drawImage(image, -halfWidth, -halfHeight);
 		ctx.restore();
 	}
+
+function drawHUD(){
+	var o = camera.origin();
+	drawText(o.x+50, o.y+20, "Enemies "+enemies.length);
+	drawText(o.x+50, o.y+50, "Children "+children.length);
+}

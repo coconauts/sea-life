@@ -11,8 +11,10 @@ var PLAYER = 0;
 var CHILD = 1;
 var ENEMY = 2;
 
+var fishes = [];
+
 var fish = function(x,y){
-  return {
+  var fish = {
     type: ENEMY,
     direction: LEFT,
     sprite: 0,
@@ -27,6 +29,8 @@ var fish = function(x,y){
     grow: grow,
     follow: follow
   };
+  fishes.push(fish);
+  return fish;
 };
 
 

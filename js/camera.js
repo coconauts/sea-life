@@ -1,4 +1,3 @@
-
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
@@ -15,6 +14,12 @@ function Camera(){
     y: canvas.height/2
   };
   var zoom = 1;
+
+  this.origin = function(){
+    var halfW = canvas.width /2;
+    var halfH = canvas.height/2;
+    return {x: c.x - halfW, y: c.y - halfH};
+  };
 
   this.zoom = function(z){
     zoom = z;

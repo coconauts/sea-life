@@ -1,8 +1,9 @@
 setInterval(function(){
+  for (var f in fishes) updateLife(fishes[f]);
 
-  updateLife(player);
-  for (var e in enemies)  updateLife(enemies[e]);
-  for (var c in children) updateLife(children[c]);
+  // updateLife(player);
+  // for (var e in enemies)  updateLife(enemies[e]);
+  // for (var c in children) updateLife(children[c]);
 
 }, 1000);
 
