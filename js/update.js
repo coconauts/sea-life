@@ -1,22 +1,7 @@
-var playerSpriteTimeout ;
-// Update game objects
 var update = function (modifier) {
 	controls(modifier);
 
-	//console.log("Moving camera ", player.x , player.y);
-
-	if (player.stage == DEAD){
-		clearTimeout(playerSpriteTimeout);
-		player.isMoving = false;
-	} else {
-		if (!player.isMoving) {
-			player.isMoving = true;
-			playerSpriteTimeout = setInterval(function(){
-				player.sprite = (player.sprite +1) %2;
-			}, 250);
-		}
-		move(player, modifier);
-	}
+	if (player.stage != DEAD) move(player, modifier);
 
 	updateEnemies(modifier); //AI
 	updateChildren(modifier); //AI

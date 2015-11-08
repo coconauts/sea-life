@@ -2,55 +2,21 @@
 
 var SIZE = 32;
 
-var directionToRotation = function(direction){
-		switch(direction){
-			case RIGHT : return 0;
-			case LEFT: return 180;
-			case DOWN: return 90;
-			case UP: return 270;
-
-		}
-};
-
 // Draw everything
 var render = function () {
-	//    ctx.clearRect(0,0,canvas.width,canvas.height);
-/*
-	if (bgReady) {
-		ctx.drawImage(bgImage,0 , 0);
-	}*/
-//	ctx.fillRect(0,0,canvas.width,canvas.height);
 
 	camera.clear();
 	if (player.x) camera.center(player.x,player.y);
 
-
-	//drawBackground();
-
 	drawSectors(player.x,player.y);
-
-	if (player.stage != DEAD) {
-		var image;
-		if(player.sprite == 0) image = playerImageClose;
-		else image = playerImageOpen;
-		//TODO rotate with direction
-	//	ctx.drawImage(image, player.x - SIZE/2 , player.y - SIZE/2, SIZE, SIZE);
-
-	 	drawFish(player);
-		drawStats(player);
-
-	  //var rotation = directionToRotation(player.direction);
-		//drawRotated(image, player.x, player.y, rotation);
-
-	//	triangle(player.x, player.y, player.x+ 10, player.y+10, player.x + 10, player.y-10);
-	}
 
 	drawFishes(children, false);
 	drawFishes(enemies, true);
 
-	//drawItems(children,playerImageOpen, false);
-	//drawItems(eggs,eggImage, false);
-	//drawItems(enemies,enemyImage, true);
+	if (player.stage != DEAD) {
+	 	drawFish(player);
+		drawStats(player);
+	}
 };
 
 var drawFishes = function(array, withStats) {
@@ -96,18 +62,6 @@ var drawText = function(x,y, text) {
 	ctx.fillText(text, x,y);
 
 };
-
-function drawBackground(){
-	for (var i= 0; i < background.length; i++){
-		var b = background[i];
-
-		//ctx.drawImage(backgroundImage.center, b.x, b.y  ,SIZE, SIZE);
-		for (var j= 0; j < b.directions.length; j++){
-			var d = b.directions[j];
-			ctx.drawImage(backgroundImage[d], b.x, b.y  ,SIZE, SIZE);
-		}
-	}
-}
 
 function drawSectors(x,y) {
 
