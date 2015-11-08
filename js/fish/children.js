@@ -5,6 +5,7 @@ var FOLLOW_DISTANCE = 100;
 var addEgg = function(x,y){
   console.log("Adding egg on ",x,y);
   var child = fish(x,y);
+  child.type = CHILD;
   children.push(child);
 };
 

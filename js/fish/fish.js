@@ -1,16 +1,20 @@
 // Game objects
 var MOVE_SPEED = 100;
 
-const EGG = 0;
-const LARVA = 1;
-const YOUNG = 2;
-const ADULT = 3;
-const DEAD = 4;
+var EGG = 0;
+var LARVA = 1;
+var YOUNG = 2;
+var ADULT = 3;
+var DEAD = 4;
+
+var PLAYER = 0;
+var CHILD = 1;
+var ENEMY = 2;
 
 var fish = function(x,y){
   return {
+    type: ENEMY,
     direction: LEFT,
-    dead: false,
     sprite: 0,
     x: x,
     y: y,
@@ -91,16 +95,20 @@ var generateStats = function(){
 
 var follow = function(fish, modifier){
 
-  var d = distance(fish.x,fish.y, this.x,this.y);
+  if (fish && fish.x && fish.stage != DEAD) {
+    var d = distance(fish.x,fish.y, this.x,this.y);
 
-  var vx = (fish.x - this.x) / d; //use child.x - player. to flee
-  var vy = (fish.y - this.y ) / d;
+    var vx = (fish.x - this.x) / d; //use child.x - player. to flee
+    var vy = (fish.y - this.y ) / d;
 
-  var speed = MOVE_SPEED;
-  if (d < FOLLOW_DISTANCE / 2) {
-    speed = speed * (1/d); //Reduce speed when getting closer;
+    var speed = MOVE_SPEED;
+    if (this.type == CHILD && d < FOLLOW_DISTANCE / 2) {
+      speed = speed * (1/d); //Reduce speed when getting closer;
+    }
+
+    this.x = this.x+ vx * this.stats().speed * speed * modifier;
+    this.y =  this.y+ vy * this.stats().speed * speed * modifier;
+
+    if (isNaN(this.x)) console.log("Generated NAN position from fish ", this, fish);
   }
-
-  this.x  = this.x+ vx * this.stats().speed * speed * modifier;
-  this.y =  this.y+ vy * this.stats().speed * speed * modifier;
 };
