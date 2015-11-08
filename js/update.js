@@ -5,7 +5,7 @@ var update = function (modifier) {
 
 	//console.log("Moving camera ", player.x , player.y);
 
-	if (player.dead || isCollidingBlocks(player,player.direction)){
+	if (player.dead){
 		clearTimeout(playerSpriteTimeout);
 		player.isMoving = false;
 	} else {
@@ -18,6 +18,7 @@ var update = function (modifier) {
 		move(player, modifier);
 	}
 	player.grow();
+
 	updateEnemies(modifier); //AI
 	updateChildren(modifier); //AI
 
@@ -56,15 +57,4 @@ var attack = function(player,enemy, modifier){
 var move = function(obj, modifier){
   obj.x  = obj.x + obj.direction.x * obj.stats().speed * MOVE_SPEED * modifier;
   obj.y =  obj.y + obj.direction.y * obj.stats().speed * MOVE_SPEED * modifier;
-};
-
-var isCollidingBlocks = function(obj, direction, offset){
-	if (!offset) offset = p(0,0);
-		for (var i=0; i < blocks.length; i++){
-		var block = blocks[i];
-
-		var isColliding = collision.isCollidingDirection(block, obj, direction, offset);
-		if (isColliding) return true;
-	}
-	return false;
 };

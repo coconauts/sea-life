@@ -27,16 +27,18 @@ var fish = function(x,y){
 
 
 var lifeTimes = {
-  0: 20, //EGG
+  0: 5, //EGG
   1: 60, //LARVA
   2: 60, //YOUNG
   3: 600 //ADULT
 };
 
 var grow = function(){
+  console.log("Calling grow");
   var fish = this;
   if (fish.secondsAlive > lifeTimes[fish.stage]){
     fish.stage += 1;
+    console.log("fish leveled up ", fish);
   }
   // dont be dead, for now
   fish.stage = Math.min(fish.stage, ADULT);
@@ -72,19 +74,3 @@ var generateStats = function(){
   };
 
 };
-
-var addEnemy = function(x, y){
-  var enemy = fish(x,y);
-  enemy.stage = LARVA;
-
-  startAi(enemy);
-  enemies.push(enemy);
-};
-
-
-
-var enemies = [];
-var dots = [];
-var blocks = [];
-
-var background = [];

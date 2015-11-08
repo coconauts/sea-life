@@ -27,7 +27,7 @@ var render = function () {
 
 	//drawBackground();
 
-	drawRect(player.x,player.y);
+	drawSectors(player.x,player.y);
 	drawStats(player);
 
 	if (!player.dead) {
@@ -44,7 +44,7 @@ var render = function () {
 	}
 
 	drawItems(children,playerImageOpen, false);
-	drawItems(eggs,eggImage, false);
+	//drawItems(eggs,eggImage, false);
 	drawItems(enemies,enemyImage, true);
 };
 
@@ -54,8 +54,12 @@ var drawItems = function(array, image, withStats) {
     var item = array[i];
 		if (withStats) drawStats(item);
 
+
 		//item might be null if you use `delete array[i]`, like eggs
-    if (item) ctx.drawImage(image, item.x -SIZE/2, item.y - SIZE/2,SIZE, SIZE);
+    if (item) {
+			if (item.stage === 0) image = eggImage;
+			ctx.drawImage(image, item.x -SIZE/2, item.y - SIZE/2,SIZE, SIZE);
+		}
   }
 };
 
@@ -98,7 +102,7 @@ function drawBackground(){
 	}
 }
 
-function drawRect(x,y) {
+function drawSectors(x,y) {
 
 		var origin = sectors.origin(x,y);
 		var w = sectors.width();

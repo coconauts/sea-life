@@ -18,10 +18,10 @@ addEventListener("click", function(e) {
 
 //Called from update.js
 var controls = function(modifier){
-  if (KEY_LEFT in keysDown && !isCollidingBlocks(player, LEFT, p(-5,0)))  player.direction = LEFT;
-  if (KEY_RIGHT in keysDown && !isCollidingBlocks(player,RIGHT, p(5,0)))  player.direction = RIGHT;
-	if (KEY_UP in keysDown && !isCollidingBlocks(player,UP, p(0,-5)))  player.direction = UP;
-	if (KEY_DOWN in keysDown && !isCollidingBlocks(player,DOWN, p(0,5)))  player.direction = DOWN;
+  if (KEY_LEFT in keysDown)  player.direction = LEFT;
+  if (KEY_RIGHT in keysDown )  player.direction = RIGHT;
+	if (KEY_UP in keysDown )  player.direction = UP;
+	if (KEY_DOWN in keysDown )  player.direction = DOWN;
 
 /*
 	if (KEY_LEFT in keysDown )  camera.translate(1,0);
