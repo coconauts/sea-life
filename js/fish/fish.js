@@ -21,6 +21,7 @@ var fish = function(x,y){
     food: 100,
     stats: adjustedStats,
     grow: grow,
+    follow: follow
   };
 };
 
@@ -73,4 +74,20 @@ var generateStats = function(){
     speed: speed,
   };
 
+};
+
+var follow = function(fish, modifier){
+
+  var d = distance(fish.x,fish.y, this.x,this.y);
+
+  var vx = (fish.x - this.x) / d; //use child.x - player. to flee
+  var vy = (fish.y - this.y ) / d;
+
+  var speed = MOVE_SPEED;
+  if (d < FOLLOW_DISTANCE / 2) {
+    speed = speed * (1/d); //Reduce speed when getting closer;
+  }
+
+  this.x  = this.x+ vx * this.stats().speed * speed * modifier;
+  this.y =  this.y+ vy * this.stats().speed * speed * modifier;
 };

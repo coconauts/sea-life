@@ -11,10 +11,10 @@ var addEnemy = function(x, y){
 
 var updateEnemies = function(modifier){
 
-  for (var e in enemies)  updateEnemy(enemies[e]);
+  for (var e in enemies)  updateEnemy(enemies[e], modifier);
 };
 
-var updateEnemy = function(fish){
+var updateEnemy = function(fish, modifier){
   move(fish, modifier);
 };
 
@@ -29,7 +29,11 @@ var startAi = function(enemy){
 };
 
 var findCloseEnemy = function(enemy) {
-  utils.randomBetween(enemy.index -2, enemy.index +2);
+  var max = Math.max(enemy.index -2, 0);
+  var min = Math.min(enemy.index +2, enemies.length);
+
+  var index = randomBetween(max, min);
+  return enemies[index];
 };
 
 var changeDirection = function(enemy){
