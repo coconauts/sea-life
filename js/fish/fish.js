@@ -71,19 +71,33 @@ var adjustedStats = function(){
     adjusted[stat] = this.baseStats[stat] * modifiers[this.stage];
     adjusted[stat] = adjusted[stat].toFixed(2);
   }
+
   return adjusted;
+
 };
 
 
 var generateStats = function(){
-  var speed = floatRandomBetween(0.2, 0.8);
-  var attack = floatRandomBetween(0.2, 0.8-speed);
-  var defense = parseFloat((1 - speed - attack).toFixed(2));
+  var min = 0.15;
+  var max = 0.7;
 
+  var r1 = floatRandomBetween(min, max);
+  var r2 = floatRandomBetween(r1+min, Math.min(r1+max, 1-min));
+
+  var v1 = r1;
+  var v2 = r2 - r1;
+  var v3 = 1 - r2;
+
+  /* //testing
+  var combined = v1 + v2 + v3;
+  if (combined<0.95 || combined > 1.05) {alert("invalid stats: "+v1 + " " +v2 +" "+v3);}
+  if (v1<0.15 || v2<0.15 || v3<0.1){alert("invalid stats: "+v1 + " " +v2 +" "+v3);}
+  if (v1>0.7 || v2>0.7 || v3>0.7){alert("invalid stats: "+v1 + " " +v2 +" "+v3);}
+  */
   return {
-    attack: attack,
-    defense: defense,
-    speed: speed,
+    attack: v1,
+    defense: v2,
+    speed: v3,
   };
 
 };
