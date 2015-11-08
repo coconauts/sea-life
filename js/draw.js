@@ -62,9 +62,10 @@ var drawFishes = function(array, withStats) {
     if (item) {
 			if (withStats) drawStats(item);
 
-			if (item.stage === 0) image = eggImage;
+			if (item.stage === 0) drawEgg(item);
+			else drawFish(item);
 			//ctx.drawImage(image, item.x -SIZE/2, item.y - SIZE/2,SIZE, SIZE);
-			drawFish(item);
+
 		}
   }
 };
@@ -124,7 +125,7 @@ function drawSectors(x,y) {
 
 		ctx.lineWidth = 1;
 
-		ctx.strokeStyle="orange";
+		ctx.strokeStyle="oranwge";
 
 		ctx.rect(origin.x+w, origin.y,w,w);
 		ctx.rect(origin.x+w, origin.y+w,w,w);
@@ -140,7 +141,17 @@ function drawSectors(x,y) {
 		ctx.stroke();
 }
 
-var angle = 0;
+var drawEgg = function(fish) {
+
+	var grd=ctx.createLinearGradient(fish.x,fish.y, fish.x +20,fish.y);
+	grd.addColorStop(0, "white");
+	grd.addColorStop(1,"gray");
+	ctx.strokeStyle=grd;
+
+	//ctx.strokeStyle="white";
+	drawEllipse(fish.x,fish.y - 5, 5, 10);
+
+};
 var drawFish = function(fish) {
 
 	ctx.save();
@@ -246,6 +257,26 @@ var drawFish = function(fish) {
 
 	ctx.restore();
 };
+
+function drawEllipse(x, y, w, h) {
+  var kappa = 0.5522848,
+      ox = (w / 2) * kappa, // control point offset horizontal
+      oy = (h / 2) * kappa, // control point offset vertical
+      xe = x + w,           // x-end
+      ye = y + h,           // y-end
+      xm = x + w / 2,       // x-middle
+      ym = y + h / 2;       // y-middle
+
+	ctx.beginPath();
+  ctx.moveTo(x, ym);
+  ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+  ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+  ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+  ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  //ctx.closePath(); // not used correctly, see comments (use to close off open path)
+  ctx.stroke();
+}
+
 var drawArc = function(x,y, props, percent){
 	ctx.beginPath();
 	var r = props.r;
