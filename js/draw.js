@@ -81,7 +81,7 @@ function drawSectors(x,y) {
 
 		ctx.lineWidth = 1;
 
-		ctx.strokeStyle="oranwge";
+		ctx.strokeStyle="orange";
 
 		ctx.rect(origin.x+w, origin.y,w,w);
 		ctx.rect(origin.x+w, origin.y+w,w,w);
