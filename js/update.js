@@ -44,7 +44,7 @@ var receiveAttack = function(attacker, defender, modifier) {
 	if (attack > 0) defender.stats.health -= attack;
 };
 var attack = function(player,enemy, modifier){
-	console.log("Attack " , player, enemy);
+//	console.log("Attack " , player, enemy);
 	receiveAttack(player,enemy, modifier);
 	receiveAttack(enemy,player, modifier);
 
@@ -53,13 +53,9 @@ var attack = function(player,enemy, modifier){
 };
 
 var move = function(obj, modifier){
-
   obj.x  = obj.x + obj.direction.x * obj.stats.speed * MOVE_SPEED * modifier;
   obj.y =  obj.y + obj.direction.y * obj.stats.speed * MOVE_SPEED * modifier;
-
-  //if (obj.y < 0 ) obj.y = canvas.height;
-  //else if (obj.y > canvas.height ) obj.y = 0 ;
-}
+};
 
 var isCollidingBlocks = function(obj, direction, offset){
 	if (!offset) offset = p(0,0);
@@ -70,4 +66,4 @@ var isCollidingBlocks = function(obj, direction, offset){
 		if (isColliding) return true;
 	}
 	return false;
-}
+};
