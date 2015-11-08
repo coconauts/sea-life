@@ -27,12 +27,21 @@ var fish = function(x,y){
     food: 100,
     stats: adjustedStats,
     grow: grow,
-    follow: follow
+    follow: follow,
+    color: randomColor()
   };
   fishes.push(fish);
   return fish;
 };
 
+var randomColor = function(){
+  var letters = '0123456789ABCDEF'.split('');
+   var color = '#';
+   for (var i = 0; i < 6; i++ ) {
+       color += letters[Math.floor(Math.random() * 16)];
+   }
+   return color;
+};
 
 
 var lifeTimes = {

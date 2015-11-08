@@ -1,6 +1,3 @@
-
-var p = function(x,y){   return {x: x, y: y};  }
-
 var randomBetween = function(min, max){
   return Math.floor(Math.random() * (max - min)) + min;
 };
