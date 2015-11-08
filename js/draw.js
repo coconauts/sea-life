@@ -49,14 +49,14 @@ var render = function () {
 };
 
 var drawItems = function(array, image, withStats) {
-	for (var i=0; i < array.length; i++){
+	for (var i in array){
 
     var item = array[i];
-		if (withStats) drawStats(item);
 
-
-		//item might be null if you use `delete array[i]`, like eggs
+		//item might be null if you use `delete array[i]`, like eggs or enemies
     if (item) {
+			if (withStats) drawStats(item);
+
 			if (item.stage === 0) image = eggImage;
 			ctx.drawImage(image, item.x -SIZE/2, item.y - SIZE/2,SIZE, SIZE);
 		}
