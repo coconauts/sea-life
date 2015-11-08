@@ -28,14 +28,16 @@ var render = function () {
 	//drawBackground();
 
 	drawSectors(player.x,player.y);
-	drawStats(player);
 
-	if (!player.dead) {
+	if (player.stage != DEAD) {
 		var image;
 		if(player.sprite == 0) image = playerImageClose;
 		else image = playerImageOpen;
 		//TODO rotate with direction
-		ctx.drawImage(image, player.x - SIZE/2 , player.y - SIZE/2, SIZE, SIZE);
+	//	ctx.drawImage(image, player.x - SIZE/2 , player.y - SIZE/2, SIZE, SIZE);
+
+	 	drawFish(player);
+		drawStats(player);
 
 	  //var rotation = directionToRotation(player.direction);
 		//drawRotated(image, player.x, player.y, rotation);
@@ -43,12 +45,15 @@ var render = function () {
 	//	triangle(player.x, player.y, player.x+ 10, player.y+10, player.x + 10, player.y-10);
 	}
 
-	drawItems(children,playerImageOpen, false);
+	drawFishes(children, false);
+	drawFishes(enemies, true);
+
+	//drawItems(children,playerImageOpen, false);
 	//drawItems(eggs,eggImage, false);
-	drawItems(enemies,enemyImage, true);
+	//drawItems(enemies,enemyImage, true);
 };
 
-var drawItems = function(array, image, withStats) {
+var drawFishes = function(array, withStats) {
 	for (var i in array){
 
     var item = array[i];
@@ -58,7 +63,8 @@ var drawItems = function(array, image, withStats) {
 			if (withStats) drawStats(item);
 
 			if (item.stage === 0) image = eggImage;
-			ctx.drawImage(image, item.x -SIZE/2, item.y - SIZE/2,SIZE, SIZE);
+			//ctx.drawImage(image, item.x -SIZE/2, item.y - SIZE/2,SIZE, SIZE);
+			drawFish(item);
 		}
   }
 };
@@ -71,13 +77,13 @@ var drawStats = function(fish) {
 	drawArc(fish.x,fish.y +5, {r: 35, color: "red", position: "bottom"}, fish.stats().attack * 100);
 	drawArc(fish.x,fish.y +5, {r: 50, color: "gray", position: "bottom"}, fish.stats().defense * 100);
 	drawArc(fish.x,fish.y +5, {r: 65, color: "blue", position: "bottom"}, fish.stats().speed * 100);
-
+/*
 	drawText(fish.x,fish.y - 90, "ST "+fish.stage);
 	drawText(fish.x,fish.y - 70, "F "+fish.food);
 	drawText(fish.x,fish.y - 50, "H "+ fish.health.toFixed(2));
 	drawText(fish.x,fish.y + 50, "S "+fish.stats().speed);
 	drawText(fish.x,fish.y + 70, "D "+fish.stats().defense);
-	drawText(fish.x,fish.y + 90, "A "+fish.stats().attack);
+	drawText(fish.x,fish.y + 90, "A "+fish.stats().attack);*/
 
 };
 
@@ -134,6 +140,112 @@ function drawSectors(x,y) {
 		ctx.stroke();
 }
 
+var angle = 0;
+var drawFish = function(fish) {
+
+	ctx.save();
+
+	var x = -20;
+	var y = -10 ;
+	var h = 15;
+	var w = 48;
+
+	var BODY_MAX_WIDTH = 5;
+	var BODY_MARGIN = 3;
+	var topX = x+12;
+	var bottomX = x+12;
+
+	var moveY = randomBetween(-5,5);
+
+	var angle = directionToAngle(fish.direction);
+	ctx.translate(fish.x  , fish.y );
+	ctx.rotate(angle * TO_RADIANS);
+
+	ctx.beginPath();
+
+	var grd=ctx.createLinearGradient(x,y, x,y+15);
+	grd.addColorStop(0, fish.color);
+	grd.addColorStop(1,"white");
+	ctx.fillStyle=grd;
+
+	//HEAD
+	ctx.moveTo(x-5,y+5);
+	ctx.lineTo(x+10,y);
+	ctx.lineTo(x+9,y+15);
+  ctx.fill();
+
+	//BODY
+	var tailY = y + randomBetween(5, 10);
+	ctx.moveTo(x+12, y);
+	ctx.lineTo(x+40, tailY);
+	ctx.lineTo(x+12,y+15);
+	ctx.fill();
+
+
+	//Fins:
+	ctx.moveTo(x+14, y-2);
+	ctx.lineTo(x+25, y - 4);
+	ctx.lineTo(x+25,y+2);
+	ctx.fill();
+
+	ctx.moveTo(x+14, y +h+2);
+	ctx.lineTo(x+25, y +h+4);
+	ctx.lineTo(x+25,y+h-2);
+	ctx.fill();
+
+
+/*
+	var fishBody = function() {
+
+		ctx.beginPath();
+		ctx.fillStyle="red";
+
+		ctx.moveTo(topX,y);
+
+		var incTopX = randomBetween(1, BODY_MAX_WIDTH);
+		var incBottomX = randomBetween(1, BODY_MAX_WIDTH);
+
+		ctx.lineTo(topX + incTopX,y);
+		ctx.lineTo(bottomX + incBottomX,y+ h);
+		ctx.lineTo(bottomX,y+h);
+
+		topX+= incTopX +BODY_MARGIN;
+		bottomX += incBottomX +BODY_MARGIN;
+
+		y += moveY;
+		ctx.fill();
+	};
+
+
+	fishBody();
+	fishBody();
+	fishBody();
+	fishBody();*/
+
+	//tail
+
+	//ctx.translate(x , y );
+	//ctx.translate(-topX , -y );
+
+//ctx.rotate(angle * TO_RADIANS);
+
+	ctx.moveTo(x+40,tailY);
+	ctx.lineTo(x+55,y);
+	ctx.lineTo(x+48,tailY);
+	ctx.lineTo(x+55,y+15);
+
+	ctx.fill();
+
+	//EYES
+	ctx.beginPath();
+
+	ctx.fillStyle="black";
+	ctx.arc(x+5, y +2, 2,0,2*Math.PI);
+	ctx.arc(x+5, y+13, 2,0,2*Math.PI);
+	ctx.fill();
+
+	ctx.restore();
+};
 var drawArc = function(x,y, props, percent){
 	ctx.beginPath();
 	var r = props.r;
@@ -165,3 +277,12 @@ function drawRotated(image, x, y, angle) {
 		ctx.drawImage(image, -halfWidth, -halfHeight);
 		ctx.restore();
 	}
+
+	var directionToAngle= function(direction) {
+		switch(direction){
+			case LEFT: return 0;
+			case UP: return 90;
+			case RIGHT: return 180;
+			case DOWN: return 270;
+		}
+	};
