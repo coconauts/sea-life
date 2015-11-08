@@ -4,6 +4,10 @@ var ctx = canvas.getContext("2d");
 
 var camera = new Camera();
 
+//var paper = Raphael(0,0,canvas.width, canvas.height);
+//var panZoom = paper.panzoom({ initialZoom: 1, initialPosition: { x: 0, y: 0} });
+//  panZoom.enable();
+
 function Camera(){
 
   var c = {
@@ -12,15 +16,13 @@ function Camera(){
   };
   var zoom = 1;
 
-  this.translate = function(x,y){
-    //ctx.save();
-    ctx.translate(x, y);
-  };
-
   this.zoom = function(z){
     zoom = z;
 
     ctx.scale(z,z);
+    //paper.setViewBox(c.x, c.y,canvas.width * z,canvas.height * z,false);
+  //  Paper.setSize(canvas.width * z,canvas.height * z);
+  //panZoom.zoomOut(z);
   };
   this.clear = function(){
 
@@ -33,6 +35,7 @@ function Camera(){
     ctx.clearRect(c.x - halfW, c.y - halfH,canvas.width * invZoom,canvas.height* invZoom);
     ctx.fillRect(c.x - halfW, c.y - halfH,canvas.width* invZoom,canvas.height* invZoom);
 
+    //paper.clear();
     //context.clearRect(0, 0, canvas.width, canvas.height);
   };
 
@@ -47,8 +50,13 @@ function Camera(){
     //console.log("Center "+x,y+":" + c);
     ctx.translate(diffX, diffY);
     //this.clear();
+
+    //paper.setViewBox(c.x, c.y,canvas.width,canvas.height,false);
+    //panZoom.pan(diffX, diffY);
+  //  paper.setViewBox(c.x - canvas.width /2, c.y - canvas.height / 2, canvas.width,canvas.height);
+
   };
 
 }
 
-camera.zoom(0.5);
+camera.zoom(1);

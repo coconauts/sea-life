@@ -18,7 +18,7 @@ var fish = function(x,y){
     baseStats: generateStats(),
     secondsAlive: 0,
     health: 1,
-    food: 1,
+    food: 100,
     stats: adjustedStats,
     grow: grow,
   };
