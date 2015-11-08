@@ -33,6 +33,6 @@ var follow = function(child, modifier){
   var vx = (player.x - child.x) / d; //use child.x - player. to flee
   var vy = (player.y - child.y ) / d;
 
-  child.x  = child.x+ vx * child.stats.speed * MOVE_SPEED * modifier;
-  child.y =  child.y+ vy * child.stats.speed * MOVE_SPEED * modifier;
+  child.x  = child.x+ vx * child.stats().speed * MOVE_SPEED * modifier;
+  child.y =  child.y+ vy * child.stats().speed * MOVE_SPEED * modifier;
 };

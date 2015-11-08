@@ -17,6 +17,7 @@ var update = function (modifier) {
 		}
 		move(player, modifier);
 	}
+	player.grow();
 	updateEnemies(modifier); //AI
 	updateChildren(modifier); //AI
 
@@ -33,28 +34,28 @@ var updateCollision = function(modifier){
     if (collision.collision(enemy, player, SIZE)) {
 			attack(player,enemy, modifier);
 
-			if (enemy.stats.health <= 0)	enemies.splice(i,1);
+			if (enemy.health <= 0)	enemies.splice(i,1);
 
 		}
   }
 };
 
 var receiveAttack = function(attacker, defender, modifier) {
-	var attack = attacker.stats.attack * ( 1 - defender.stats.defense) * modifier;
-	if (attack > 0) defender.stats.health -= attack;
+	var attack = attacker.stats().attack * ( 1 - defender.stats().defense) * modifier;
+	if (attack > 0) defender.health -= attack;
 };
 var attack = function(player,enemy, modifier){
 //	console.log("Attack " , player, enemy);
 	receiveAttack(player,enemy, modifier);
 	receiveAttack(enemy,player, modifier);
 
-	if (player.stats.health <= 0) player.dead = true;
+	if (player.health <= 0) player.dead = true;
 	//if (enemy.stats.health < 1) enemy.dead = true;
 };
 
 var move = function(obj, modifier){
-  obj.x  = obj.x + obj.direction.x * obj.stats.speed * MOVE_SPEED * modifier;
-  obj.y =  obj.y + obj.direction.y * obj.stats.speed * MOVE_SPEED * modifier;
+  obj.x  = obj.x + obj.direction.x * obj.stats().speed * MOVE_SPEED * modifier;
+  obj.y =  obj.y + obj.direction.y * obj.stats().speed * MOVE_SPEED * modifier;
 };
 
 var isCollidingBlocks = function(obj, direction, offset){

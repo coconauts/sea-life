@@ -13,6 +13,7 @@ var updateEnemies = function(modifier){
 
     } else {*/
       move(enemy, modifier);
+      enemy.grow();
     //}
   }
 }

@@ -56,11 +56,12 @@ var drawItems = function(array, image, withStats) {
 };
 
 var drawStats = function(fish) {
-	drawText(fish.x,fish.y - 60, "F "+fish.stats.food);
-	drawText(fish.x,fish.y - 30, "H "+ fish.stats.health.toFixed(2));
-	drawText(fish.x,fish.y + 30, "S "+fish.stats.speed);
-	drawText(fish.x,fish.y + 60, "D "+fish.stats.defense);
-	drawText(fish.x,fish.y + 90, "A "+fish.stats.attack);
+	drawText(fish.x,fish.y - 90, "ST "+fish.stage);
+	drawText(fish.x,fish.y - 60, "F "+fish.food);
+	drawText(fish.x,fish.y - 30, "H "+ fish.health.toFixed(2));
+	drawText(fish.x,fish.y + 30, "S "+fish.stats().speed);
+	drawText(fish.x,fish.y + 60, "D "+fish.stats().defense);
+	drawText(fish.x,fish.y + 90, "A "+fish.stats().attack);
 
 };
 
