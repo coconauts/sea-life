@@ -13,7 +13,7 @@ var ENEMY = 2;
 
 var fishes = function(){
   return [player].concat(enemies,children);
-}
+};
 
 function Fish(x,y) {
   this.x = x;
@@ -34,7 +34,7 @@ function Fish(x,y) {
   this.index = 0; //Index in array for enemies
   this.name = ""; //Your fish name
   this.sector = "0,0"; //Sector you belong
-};
+}
 
 var lifeTimes = {
   0: 5, //EGG

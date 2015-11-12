@@ -1,8 +1,8 @@
 setInterval(function(){
-  var all =  fishes()
+  var all =  fishes();
   for (var f in all) {
     var fish = all[f];
-    updateSector(fish)
+    updateSector(fish);
     updateLife(fish);
   }
 }, 1000);
