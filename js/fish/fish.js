@@ -1,4 +1,4 @@
-// Game objects
+// Game thisects
 var MOVE_SPEED = 100;
 
 var EGG = 0;
@@ -11,34 +11,30 @@ var PLAYER = 0;
 var CHILD = 1;
 var ENEMY = 2;
 
-var fish = function(x,y){
-  return {
-    type: ENEMY,
-    direction: LEFT,
-    sprite: 0,
-    x: x,
-    y: y,
-    stage: EGG,
-    baseStats: generateStats(),
-    secondsAlive: 0,
-    health: 1,
-    food: 100,
-    stats: adjustedStats,
-    grow: grow,
-    follow: follow,
-    color: randomColor()
-  };
-};
+var fishes = function(){
+  return [player].concat(enemies,children);
+}
 
-var randomColor = function(){
-  var letters = '0123456789ABCDEF'.split('');
-   var color = '#';
-   for (var i = 0; i < 6; i++ ) {
-       color += letters[Math.floor(Math.random() * 16)];
-   }
-   return color;
-};
+function Fish(x,y) {
+  this.x = x;
+  this.y = y;
 
+  this.id = uuid();
+  this.direction= LEFT;
+  this.stage= EGG;
+  this.baseStats= generateStats();
+  this.secondsAlive= 0;
+  this.health= 1;
+  this.food= 100;
+  this.color= randomColor();
+
+  //Defined in runtime
+  this.following = undefined; //{x:0,y:0} //in world coordinates
+  this.type = ENEMY;
+  this.index = 0; //Index in array for enemies
+  this.name = ""; //Your fish name
+  this.sector = "0,0"; //Sector you belong
+};
 
 var lifeTimes = {
   0: 5, //EGG
@@ -47,7 +43,7 @@ var lifeTimes = {
   3: 600 //ADULT
 };
 
-var grow = function(){
+Fish.prototype.grow = function(){
   var fish = this;
   if (fish.secondsAlive > lifeTimes[fish.stage]){
     fish.stage += 1;
@@ -58,7 +54,7 @@ var grow = function(){
 };
 
 
-var adjustedStats = function(){
+Fish.prototype.stats = function(){
   var modifiers = {
     0: 0,   //EGG
     1: 0.3, //LARVA
@@ -102,9 +98,11 @@ var generateStats = function(){
 
 };
 
-var follow = function(fish, modifier){
+Fish.prototype.follow = function(modifier){
+  var fish = this.following;
 
   if (fish && fish.x && fish.stage != DEAD) {
+
     var d = distance(fish.x,fish.y, this.x,this.y);
 
     var vx = (fish.x - this.x) / d; //use child.x - player. to flee
@@ -118,6 +116,51 @@ var follow = function(fish, modifier){
     this.x = this.x+ vx * this.stats().speed * speed * modifier;
     this.y =  this.y+ vy * this.stats().speed * speed * modifier;
 
+    //Remove following when reaching destination
+    if (d < 10) this.following = undefined;
+
     if (isNaN(this.x)) console.log("Generated NAN position from fish ", this, fish);
   }
+};
+
+var collisionAttack = function(fish1,fish2,modifier) {
+	if (fish1 && fish2 && collision.collision(fish1, fish2, SIZE)) {
+		attack(fish1,fish2, modifier);
+
+		if (fish1.health <= 0)	{
+			fish1.stage = DEAD;
+			fish2.food = 100;
+			fish2.following = undefined;
+
+		} if (fish2.health <= 0){
+			fish2.stage = DEAD;
+			fish1.food = 100;
+			fish1.following = undefined;
+		}
+	}
+};
+
+var receiveAttack = function(attacker, defender, modifier) {
+	var attack = attacker.stats().attack * ( 1 - defender.stats().defense) * modifier;
+	if (attack > 0) defender.health -= attack;
+};
+var attack = function(fish1, fish2, modifier){
+	receiveAttack(fish1,fish2, modifier);
+	receiveAttack(fish2,fish1, modifier);
+
+	//if (enemy.stats.health < 1) enemy.dead = true;
+};
+
+Fish.prototype.move = function(modifier){
+  if (this.stage == DEAD) return ;
+
+  if (this.following) {
+    this.follow(modifier);
+    this.angle = headDirection(this, this.following);
+  } else if (this.direction.x || this.direction.y) {
+	  this.x  = this.x + this.direction.x * this.stats().speed * MOVE_SPEED * modifier;
+	  this.y =  this.y + this.direction.y * this.stats().speed * MOVE_SPEED * modifier;
+
+    this.angle =  directionToAngle(this.direction);
+	}
 };

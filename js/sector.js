@@ -1,5 +1,7 @@
 var sectors = new Sectors();
 
+var FISH_PER_SECTOR = 1;
+
 function Sectors(){
 
   var generated = {};
@@ -39,6 +41,27 @@ function Sectors(){
     this.getOrCreate(x-w, y+w);
   };
 
+  this.addFish = function(fish) {
+    var s = generated[fish.sector];
+    if (s) {
+      s.fishes[fish.id] = fish;
+      //console.log("Adding fish "+fish.id+" to sector ", s);
+
+    } else { //outside known space, we can remove this fish
+      fish.stage = DEAD;
+    }
+  }
+
+  this.removeFish = function(fish) {
+    var s = generated[fish.sector];
+    if (s) {
+      delete s.fishes[fish.id];
+      //console.log("Removing fish "+fish.id+" from sector ", s);
+
+    } else { //outside known space, we can remove this fish
+      fish.stage = DEAD;
+    }
+  }
   this.getOrCreate = function(x, y){
     var origin = this.origin(x, y);
     var id = this.id(origin);
@@ -60,10 +83,18 @@ function Sectors(){
     var origin = this.origin(x,y);
     var id = this.id(origin);
 
-    generated[id] = {x: origin.x, y: origin.y};
+    generated[id] = {x: origin.x,
+      y: origin.y,
+      fishes: {}
+    };
 
-    var random = this.randomPosWithinSector(origin.x,origin.y);
-    addEnemy(random.x, random.y);
+    for (var i = 0; i < FISH_PER_SECTOR; i++){
+      var random = this.randomPosWithinSector(origin.x,origin.y);
+      var enemy = enemyUtils.add(random.x, random.y);
+      enemy.sector = id;
+      this.addFish(enemy);
+    }
+
     console.log("Generating new sector " + id , generated[id]);
 
     console.log("Total sectors " + Object.keys(generated).length);

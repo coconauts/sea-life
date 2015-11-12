@@ -13,7 +13,27 @@ addEventListener("keyup", function (e) {
 
 
 addEventListener("click", function(e) {
-  addEgg(player.x,player.y);
+	var x = e.pageX - canvas.offsetLeft ;
+	var y = e.pageY - canvas.offsetTop;
+
+	var world = worldPosition(x,y);
+	console.log("click ",x,y, " to world ",world);
+	player.following = world;
+}, false);
+
+var worldPosition = function(x,y) {
+	var originWorld = camera.origin();
+	return {x: parseInt(originWorld.x + x),
+		y: parseInt(originWorld.y + y)
+	};
+}
+
+addEventListener('contextmenu', function(e){ //Right click
+
+	childUtils.add(player.x,player.y);
+
+	e.preventDefault();
+  return(false);
 }, false);
 
 //Called from update.js
@@ -23,10 +43,4 @@ var controls = function(modifier){
 	if (KEY_UP in keysDown )  player.direction = UP;
 	if (KEY_DOWN in keysDown )  player.direction = DOWN;
 
-/*
-	if (KEY_LEFT in keysDown )  camera.translate(1,0);
-  if (KEY_RIGHT in keysDown) camera.translate(-1,0);
-	if (KEY_UP in keysDown)  camera.translate(0,1);
-	if (KEY_DOWN in keysDown)  camera.translate(0,-1);
-*/
 }

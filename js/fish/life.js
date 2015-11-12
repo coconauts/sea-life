@@ -1,11 +1,11 @@
 setInterval(function(){
-
-  updateLife(player);
-  for (var e in enemies)  updateLife(enemies[e]);
-  for (var c in children) updateLife(children[c]);
-
+  var all =  fishes()
+  for (var f in all) {
+    var fish = all[f];
+    updateSector(fish)
+    updateLife(fish);
+  }
 }, 1000);
-
 
 var updateLife = function(fish){
 
@@ -16,5 +16,19 @@ var updateLife = function(fish){
   else if (fish.health < 1) fish.health += 0.01;
 
   fish.grow();
+};
 
+var updateSector = function(fish){
+
+  if (fish && fish.x) {
+
+    var sectorId = sectors.id(sectors.origin(fish.x,fish.y));
+
+    if (sectorId != fish.sector) {
+      sectors.removeFish(fish);
+      fish.sector = sectorId;
+      sectors.addFish(fish);
+    }
+
+  }
 };
