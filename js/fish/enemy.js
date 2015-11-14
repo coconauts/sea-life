@@ -44,8 +44,7 @@ function Enemy() {
         fish.following = undefined;
       }
 
-      if (fish.following) fish.follow(modifier);
-      else fish.move(modifier);
+      fish.move(modifier);
 
     };
 

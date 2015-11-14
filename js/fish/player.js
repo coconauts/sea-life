@@ -12,6 +12,6 @@ player.move = function(modifier){
 };
 
 setInterval(function(){
-    console.log("Sending player");
+  //  console.log("Sending player");
     ws.send({type: 'update', fish: player});
 },100);

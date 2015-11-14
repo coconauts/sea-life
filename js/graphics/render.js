@@ -1,9 +1,11 @@
 // Draw everything
 var render = function () {
 
-	camera.clear();
+	//camera.clear();
 
 	// drawSectors(player.x,player.y);
+
+	sectors.drawVisibleBackground(player.x,player.y);
 
 	drawFishes(children, false, false);
 	drawFishes(enemies, true, false);

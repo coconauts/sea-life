@@ -1,5 +1,5 @@
 // Game thisects
-var MOVE_SPEED = 100;
+var MOVE_SPEED = 500;
 
 var EGG = 0;
 var LARVA = 1;

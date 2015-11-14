@@ -2,6 +2,9 @@ var sectors = new Sectors();
 
 var FISH_PER_SECTOR = 1;
 
+
+var backgroundImage =  setImage("imgs/dust.jpg");
+
 function Sectors(){
 
   var generated = {};
@@ -27,6 +30,24 @@ function Sectors(){
     return origin.x+","+origin.y;
   };
 
+  this.drawVisibleBackground = function(x, y){
+    var origin = this.origin(x, y);
+
+    this.drawBackground(origin.x, origin.y);
+  };
+  
+  this.drawBackground = function(x, y){
+    try {
+      console.log("drawing background on ", x,y);
+      var pat=ctx.createPattern(backgroundImage,"repeat");
+      ctx.rect(x, y,w,w);
+      ctx.fillStyle=pat;
+      ctx.fill();
+    } catch (e) {
+      console.error("Unable to draw background", e);
+    }
+  };
+
   this.visit = function(x,y){
 
     this.getOrCreate(x, y);
@@ -50,7 +71,7 @@ function Sectors(){
     } else { //outside known space, we can remove this fish
       fish.stage = DEAD;
     }
-  }
+  };
 
   this.removeFish = function(fish) {
     var s = generated[fish.sector];
@@ -61,7 +82,8 @@ function Sectors(){
     } else { //outside known space, we can remove this fish
       fish.stage = DEAD;
     }
-  }
+  };
+
   this.getOrCreate = function(x, y){
     var origin = this.origin(x, y);
     var id = this.id(origin);

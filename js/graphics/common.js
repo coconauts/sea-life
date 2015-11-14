@@ -3,6 +3,12 @@ var ctx = canvas.getContext("2d");
 
 SIZE = 32;
 
+var setImage = function(img){
+	var i = new Image();
+	i.src = img;
+	return i;
+};
+
 function drawEllipse(x, y, w, h) {
   var kappa = 0.5522848,
       ox = (w / 2) * kappa, // control point offset horizontal
