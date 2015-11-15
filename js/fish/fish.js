@@ -26,7 +26,8 @@ function Fish(x,y) {
   this.secondsAlive= 0;
   this.health= 1;
   this.food= 100;
-  this.color= randomColor();
+  this.color = randomColor();
+  this.shape = generateShape();
 
   //Defined in runtime
   this.following = undefined; //{x:0,y:0} //in world coordinates
@@ -95,7 +96,19 @@ var generateStats = function(){
     defense: v2,
     speed: v3,
   };
+};
 
+
+var generateShape = function() {
+  return {
+    bodyWidth: randomBetween(5, 30),
+    bodyLength: randomBetween(20, 60),
+    headLength: randomBetween(5, 15),
+    tailWidth: randomBetween(5, 20),
+    tailLength: randomBetween(5, 15),
+    finWidth: 8,
+    finLength: 5,
+  };
 };
 
 Fish.prototype.follow = function(modifier){
