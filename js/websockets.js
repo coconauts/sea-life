@@ -7,7 +7,7 @@ function Websocket() {
 
   if ("WebSocket" in window) {
      console.log("Opening websocket!");
-     connection = new WebSocket("ws:/sealife.coconauts.net:8010/echo");
+     connection = new WebSocket("ws:/sealife.coconauts.net:8001/echo");
      connected= true;
 
      connection.onopen = function(){
